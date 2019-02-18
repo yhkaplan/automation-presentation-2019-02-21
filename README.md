@@ -11,6 +11,7 @@ slidenumbers: true
 # Self Intro
 - Joshua Kaplan
 - minne @ GMO Pepabo
+- Danger-Swift contributer
 - Likes 🤖
 
 ---
@@ -20,6 +21,13 @@ slidenumbers: true
 ---
 
 # [fit] Why?
+
+---
+
+- Fewer mistakes
+- Faster
+- More efficient
+- More exciting (anyone like logging in to App Store Connect?)
 
 ---
 
