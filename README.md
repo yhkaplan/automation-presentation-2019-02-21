@@ -17,14 +17,6 @@ slidenumbers: true
 
 ---
 
-# Key CI tools
-
-- Fastlane
-- Danger
-- SwiftLint
-
----
-
 # [fit] CI is the ultimate automation tool
 
 ---
@@ -36,7 +28,15 @@ slidenumbers: true
 - Fewer mistakes
 - Faster
 - More efficient
-- More exciting (anyone like logging in to App Store Connect?)
+- More exciting
+
+---
+
+# Key CI tools
+
+- Fastlane
+- Danger
+- SwiftLint
 
 ---
 
@@ -44,7 +44,7 @@ slidenumbers: true
 
 ---
 
-# Connect to GitHub and run tests for each PR
+# Run tests for each PR
 
 ---
 
@@ -183,7 +183,7 @@ xcode_summary.report build_report_file
 
 ---
 
-![fit](images/xcov_danger.png)
+![100%](images/xcov_danger.png)
 
 ---
 
@@ -243,12 +243,14 @@ end
 ---
 
 ```swift
+// App
 let app = XCUIApplication()
 setupSnapshot(app)
 app.launch()
 ```
 
 ```rb
+# Fastlane
 lane :screenshots do
   capture_screenshots
   frame_screenshots(white: true)
@@ -262,15 +264,57 @@ end
 
 ---
 
+## ![100%](images/dead_code.png)
+
+---
+
+```rb
+def get_dead_objc_code
+  std_out, status = Open3.capture2("bundle", "exec", "fui", "--ignorexib", "--path", "minne/Classes")
+  # fuiのexitstatusは、使われていないクラスの数で、
+  # Bridging-Headerが必ず当たってしまうので、
+  # 2つ以上の結果がある場合通知している。
+  return status.exitstatus >= 2 ? std_out : ""
+end
+
+def get_dead_swift_code
+  std_out, _ = Open3.capture2("periphery", "scan")
+  r = /minne.*(Struct|Class) .*is unused$/
+  filtered_results_array = std_out.to_enum(:scan,r).map {$&}.flatten
+  return filtered_results_array.join("\n")
+end
+
+# Main
+dead_objc_result = get_dead_objc_code
+dead_swift_result = get_dead_swift_code
+mention = "<!subteam^S1DDSFQSF|minne-ios>"
+message = "#{mention}, Unused files exist:\n"
+
+notify_slack(message + dead_objc_result) unless dead_objc_result == ""
+notify_slack(message + dead_swift_result) unless dead_swift_result == ""
+```
+
+---
+
 # Release tag generation
 
 ---
 
-# [fit] Speed optimizations
+![100%](images/release_tags.png)
+
+---
+
+![90%](images/release_notes.png)
+
+---
+
+# [fit] Speed optimization
 
 ---
 
 # Rome
+
+- https://github.com/blender/Rome
 
 ---
 
